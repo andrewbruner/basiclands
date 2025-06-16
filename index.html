@@ -6,14 +6,42 @@
 			@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 			body {
 				font-family: Roboto, sans-serif;
+				margin: 0;
 			}
 			h1, h2, h3 {
 				text-align: center;
 			}
+			h1 {
+				font-size: 1.125rem;
+				margin: 1.125rem;
+			}
+			h2 {
+				background-color: gray;
+				color: white;
+				font-size: 1rem;
+				margin: 0.875rem 0 0;
+				padding: 1.5rem;
+			}
+			h3 {
+				font-size: 0.875rem;
+				margin: 0.875rem;
+			}
+			h3 span {
+				background-color: white;
+				padding: 0 1rem;
+			}
+			hr {
+				margin: auto;
+				position: relative;
+				top: -1.4375rem;
+				width: calc(100% - 2rem);
+				z-index: -1;
+			}
 			div {
 				display: grid;
-				gap: 0.5%;
+				gap: 0.25rem;
 				grid-template-columns: repeat(5, 1fr);
+				margin: 0 0.5rem 0.875rem;
 			}
 			img {
 				background-color: grey;
@@ -30,7 +58,8 @@
 		<h1>Basic Lands</h1>
 		
 		<h2>Final Fantasy</h2>
-		<h3>Landmark</h3>
+		<h3><span>Landmark</span></h3>
+		<hr />
 		<div>
 			<img src="https://cards.scryfall.io/large/front/9/d/9dd2d666-7c6b-48ce-93dc-c004ebdd1fe9.jpg" />
 			<img src="https://cards.scryfall.io/large/front/b/9/b92ec9f6-a56d-40c6-aee2-7d5e1524c985.jpg" />
@@ -51,7 +80,9 @@
 			<img src="https://cards.scryfall.io/large/front/c/5/c52038c8-5bba-4d8e-845f-30af44300acc.jpg" />
 		</div>
 		
-		<h2>Secret Lair x KEXP: Where the Music Matters</h2>
+		<h2>Secret Lair x KEXP</h2>
+		<h3><span>Where the Music Matters</span></h3>
+		<hr />
 		<div>
 			<img class="have" src="https://cards.scryfall.io/large/front/1/2/1299d0cf-76d1-4111-939c-5e1b43347a83.jpg" />
 			<img class="have" src="https://cards.scryfall.io/large/front/8/0/80784e7c-2939-4233-9953-87370f85a3ae.jpg" />
@@ -61,7 +92,8 @@
 		</div>
 		
 		<h2>Tarkir: Dragonstorm</h2>
-		<h3>Dragon's Presence</h3>
+		<h3><span>Dragon's Presence</span></h3>
+		<hr />
 		<div>
 			<img src="https://cards.scryfall.io/large/front/0/d/0d0f1dd6-9564-4adc-af7d-f83252e8581a.jpg" />
 			<img src="https://cards.scryfall.io/large/front/4/2/4208e66c-8c98-4c48-ab07-8523c0b26ca4.jpg" />
@@ -69,7 +101,8 @@
 			<img src="https://cards.scryfall.io/large/front/f/e/fe0865ba-47c0-40bc-b0c6-e1ea5ae08a98.jpg" />
 			<img src="https://cards.scryfall.io/large/front/4/8/48811e13-5774-4da1-95ec-6ea5dc4976ad.jpg" />
 		</div>
-		<h3>Basic</h3>
+		<h3><span>Basic</span></h3>
+		<hr />
 		<div>
 			<img src="https://cards.scryfall.io/large/front/1/2/12cff32a-a365-43ee-a196-8ce32b3bb9fd.jpg" />
 			<img src="https://cards.scryfall.io/large/front/1/f/1ff6acc9-581c-468f-894d-41f725da7f33.jpg" />
@@ -83,7 +116,8 @@
 			<img src="https://cards.scryfall.io/large/front/3/d/3df7c206-97b6-49d7-ba01-7a35fd8c61d9.jpg" />
 			<img src="https://cards.scryfall.io/large/front/8/e/8e3e83d2-96ba-4d5c-a1ed-6c08a90b339c.jpg" />
 		</div>
-		<h3>Dragon's Eye</h3>
+		<h3><span>Dragon's Eye</span></h3>
+		<hr />
 		<div>
 			<img src="https://cards.scryfall.io/large/front/3/e/3e8c67e5-587a-43b2-af47-bbad1f8b52e9.jpg" />
 			<img src="https://cards.scryfall.io/large/front/b/3/b300be80-6618-4284-b5c3-95c1ab373e6f.jpg" />
@@ -92,7 +126,9 @@
 			<img src="https://cards.scryfall.io/large/front/7/e/7e33e540-2828-46ad-a441-366552843d9c.jpg" />
 		</div>
 
-		<h2>Secret Lair x SpongeBob SquarePants: Lands Under the Sea</h2>
+		<h2>Secret Lair x SpongeBob SquarePants</h2>
+		<h3><span>Lands Under the Sea</span></h3>
+		<hr />
 		<div>
 			<img src="https://cards.scryfall.io/large/front/4/7/471577f8-dc62-4f10-8adf-1e566ffc75fa.jpg" />
 			<img src="https://cards.scryfall.io/large/front/e/0/e0bf27bd-ebd8-40bf-9e8a-8ccde26bd1ec.jpg" />
@@ -102,6 +138,8 @@
 		</div>
 
 		<h2>2025 Year of the Snake</h2>
+		<h3><span>Promo</span></h3>
+		<hr />
 		<div>
 			<img src="" />
 			<img src="" />
@@ -111,7 +149,8 @@
 		</div>
 
 		<h2>Aetherdrift</h2>
-		<h3>Driver's Seat</h3>
+		<h3><span>Driver's Seat</span></h3>
+		<hr />
 		<div>
 			<img src="https://cards.scryfall.io/large/front/2/d/2d2da8b9-797f-46e8-a15d-a86c7c56dc84.jpg" />
 			<img src="https://cards.scryfall.io/large/front/f/5/f53ed206-8ec4-46a6-8603-c819682e1433.jpg" />
@@ -119,7 +158,8 @@
 			<img src="https://cards.scryfall.io/large/front/5/0/50748a4c-43a0-4274-9a84-046d76027166.jpg" />
 			<img src="https://cards.scryfall.io/large/front/7/7/777e868d-cb88-4b8e-99d1-12ff67f5eae2.jpg" />
 		</div>
-		<h3>Basic</h3>
+		<h3><span>Basic</span></h3>
+		<hr />
 		<div>
 			<img src="https://cards.scryfall.io/large/front/4/6/464723b3-0723-45f2-a258-32d098c39039.jpg" />
 			<img src="https://cards.scryfall.io/large/front/5/a/5a8e9b9e-4947-4b6a-b21b-6fe009760fc5.jpg" />
@@ -141,7 +181,8 @@
 		</div>
 
 		<h2>Innistrad Remastered</h2>
-		<h3>Retro</h3>
+		<h3><span>Retro</span></h3>
+		<hr />
 		<div>
 			<img src="https://cards.scryfall.io/large/front/9/5/95347dba-09e9-47a3-a068-db78ba39714e.jpg" />
 			<img src="https://cards.scryfall.io/large/front/b/6/b6189c28-8d64-4d54-b399-7cf2cb6e3cd5.jpg" />
@@ -154,6 +195,72 @@
 			<img src="https://cards.scryfall.io/large/front/4/b/4bc918af-527c-46d7-861d-32e9150ed3df.jpg" />
 			<img src="https://cards.scryfall.io/large/front/7/8/787da7ce-527d-4abf-9e92-5de9db2250cd.jpg" />
 			<img src="https://cards.scryfall.io/large/front/7/a/7afdc917-ec37-4e03-853f-36cfe90053d9.jpg" />
+		</div>
+
+		<h2>Secret Lair: Chaos Vault</h2>
+		<h3><span>The Strange Sands</span></h3>
+		<hr />
+		<div>
+			<img src="https://cards.scryfall.io/large/front/e/7/e7667207-283c-4318-b918-caa6368bb6e3.jpg" />
+			<img src="https://cards.scryfall.io/large/front/7/3/73014252-76c1-4554-bd1a-c01ec5342dde.jpg" />
+			<img src="https://cards.scryfall.io/large/front/e/3/e35962e5-00ed-4a2c-a6e1-67373615178a.jpg" />
+			<img src="https://cards.scryfall.io/large/front/2/3/2373014c-21d1-43d5-b774-352cdc2a840e.jpg" />
+			<img src="https://cards.scryfall.io/large/front/9/8/98548336-f0f6-47ce-8ed6-977c8c8150af.jpg" />
+		</div>
+
+		<h2>Foundations Jumpstart</h2>
+		<h3><span>Basic</span></h3>
+		<hr />
+		<div>
+			<img src="https://cards.scryfall.io/normal/front/a/4/a4446149-341b-449b-86e2-2b6b47b7a75e.jpg?1730485996" />
+			<img src="https://cards.scryfall.io/normal/front/1/d/1d8ff00f-62cc-4f71-b360-865ab2ac2599.jpg?1730486004" />
+			<img src="https://cards.scryfall.io/normal/front/9/5/95e9b77a-2d94-4c3b-a43a-b3755f5e7d11.jpg?1730486017" />
+			<img src="https://cards.scryfall.io/normal/front/a/3/a3a4da7d-a703-4f91-9ef7-ce269c0b63fb.jpg?1730486024" />
+			<img src="https://cards.scryfall.io/normal/front/2/5/2581a074-00ab-4a2d-8699-25dcd8c76393.jpg?1730486037" />
+
+			<img src="https://cards.scryfall.io/normal/front/a/2/a2125c3e-d52c-44b9-b9f1-89f02236d447.jpg?1730485997" />
+			<img src="https://cards.scryfall.io/normal/front/9/b/9b0bfe70-e584-42f2-9a32-984c17ba6d1a.jpg?1730486010" />
+			<img src="https://cards.scryfall.io/normal/front/b/a/babd424c-38cf-45e8-9684-de7bfc1ed86a.jpg?1730486017" />
+			<img src="https://cards.scryfall.io/normal/front/8/3/83706d20-fbb0-4a0a-b9c3-70e6fa3fdcf9.jpg?1730486030" />
+			<img src="https://cards.scryfall.io/normal/front/0/a/0a854256-e8f3-4715-aec2-3af3b8e8fd28.jpg?1730486039" />
+
+			<img src="https://cards.scryfall.io/normal/front/2/0/20787f63-e310-4f2c-ab13-1bb108ae3eb2.jpg?1730486003" />
+			<img src="https://cards.scryfall.io/normal/front/0/e/0e443748-edf1-4499-9507-3649dd57ee95.jpg?1730486011" />
+			<img src="https://cards.scryfall.io/normal/front/0/2/02fe3fdf-1d21-4e35-b0f3-3bcde7b05e23.jpg?1730486023" />
+			<img src="https://cards.scryfall.io/normal/front/d/4/d4606809-7066-4413-9dfd-e929004a71bb.jpg?1730486031" />
+			<img src="https://cards.scryfall.io/normal/front/7/d/7df94d2c-7c1f-4461-8f70-c2bd4ebb95be.jpg?1730486044" />
+		</div>
+
+		<h2>Foundations</h2>
+		<h3><span>Basic</span></h3>
+		<hr />
+		<div>
+			<img class="have" src="https://cards.scryfall.io/normal/front/4/e/4ef17ed4-a9b5-4b8e-b4cb-2ecb7e5898c3.jpg?1730489617" />
+			<img src="https://cards.scryfall.io/normal/front/1/7/17e2b637-72b1-4457-aaba-66d51107be4c.jpg?1730489625" />
+			<img src="https://cards.scryfall.io/normal/front/3/1/319bc1f0-ee42-44e5-b08b-735613ded2ba.jpg?1730489632" />
+			<img src="https://cards.scryfall.io/normal/front/2/7/279df7e2-2a3b-464a-a7df-e91da28e3a8c.jpg?1730489639" />
+			<img class="have" src="https://cards.scryfall.io/normal/front/d/2/d232fcc2-12f6-401a-b1aa-ddff11cb9378.jpg?1730489646" />
+
+			<img src="https://cards.scryfall.io/normal/front/3/7/37edc4b5-75f5-4b43-a57e-a8192565a2a0.jpg?1730489619" />
+			<img class="have" src="https://cards.scryfall.io/normal/front/2/3/23635e40-d040-40b7-8b98-90ed362aa028.jpg?1730489626" />
+			<img class="have" src="https://cards.scryfall.io/normal/front/1/3/13505c15-14e0-4200-82bd-fb9bce949e68.jpg?1730489632" />
+			<img class="have" src="https://cards.scryfall.io/normal/front/1/e/1edc5050-69bd-416d-b04c-7f82de2a1901.jpg?1730489639" />
+			<img src="https://cards.scryfall.io/normal/front/a/b/ab8affbb-d2a2-436b-bbc2-9e8b6cf0d2c4.jpg?1730489647" />
+		</div>
+		<h3><span>Character</span></h3>
+		<hr />
+		<div>
+			<img src="https://cards.scryfall.io/normal/front/6/e/6e6f19b3-4c76-4078-8ed2-b2832a33d066.jpg?1730489653" />
+			<img src="https://cards.scryfall.io/normal/front/8/8/886eae6e-ced2-4d94-96fa-9bb5385b06f4.jpg?1730489661" />
+			<img src="https://cards.scryfall.io/normal/front/6/f/6f23a73a-522b-40cf-a14b-ffdf47a24c01.jpg?1730489669" />
+			<img src="https://cards.scryfall.io/normal/front/3/a/3a3afd00-da06-4a9f-8cd1-7133728e0fdd.jpg?1730489676" />
+			<img src="https://cards.scryfall.io/normal/front/b/b/bbbeb57d-5fa0-4ff7-b5e8-caafc139669b.jpg?1730489683" />
+
+			<img src="https://cards.scryfall.io/normal/front/7/a/7a0f9892-89cd-46ff-bc87-114e175cb575.jpg?1730489654" />
+			<img src="https://cards.scryfall.io/normal/front/6/f/6f534ddc-f610-45cd-84dc-bb6df6c5a84f.jpg?1730489662" />
+			<img src="https://cards.scryfall.io/normal/front/f/d/fda1dbfa-a57b-4aa8-9993-c8f97aec28bb.jpg?1730489669" />
+			<img src="https://cards.scryfall.io/normal/front/0/4/042b04b4-f7f4-4c1a-86ad-b50d788aa99e.jpg?1730489676" />
+			<img src="https://cards.scryfall.io/normal/front/1/1/117ab60a-b888-4585-b0c6-769d387069f7.jpg?1730489684" />
 		</div>
 	</body>
 </html>
