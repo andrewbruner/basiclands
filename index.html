@@ -1,16 +1,42 @@
 <!doctype html>
 <html>
 	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 			:root {
 				--gap-size: 0.5rem;
 			}
+			a {
+				color: inherit;
+				text-decoration: none;
+			}
 			body {
+				color: gray;
+				cursor: default;
 				font-family: Roboto, sans-serif;
 				margin: 0;
 				text-align: center;
+			}
+			nav ul {
+				display: flex;
+				list-style: none;
+				justify-content: center;
+				padding: 0;
+			}
+			nav ul li {
+				border: 1px solid gray;
+				border-radius: 1rem;
+				cursor: pointer;
+				margin: 0 0.5rem;
+
+				&.active {
+					background-color: gray;
+					color: white;
+				}
+
+				a {
+					padding: 0 0.5rem;
+				}
 			}
 			.cards-div {
 				display: flex;
@@ -53,107 +79,192 @@
 		
 	</body>
 	<script>
+		// API Variables
 		const spreadsheetId = '1O95Pt2QWKUa0arRAC5aKsSsXrjgkhEDHcUTzyAXvGTE';
 		const range = 'API';
 		const key = 'AIzaSyADnkNWzw5wme2wHe2PQzpjm-Kv77Hsl_s';
 		const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${key}`;
+		
+		// Fetch Card Data
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
-				// remove header row from card data
+				// Remove header row from card data
 				data = data.values.slice(1);
 				
-				// build data structure
-				data = data.reduce((acc, curr, idx) => {
-					let [isCollected, releaseDate, setCode, setName, landType, collectorsNumber, imageLink,
-							scryfallLink] = curr;
-					let card = {
-						collectorsNumber,
-						imageLink,
-						isCollected: isCollected === 'TRUE',
-						landType,
-						releaseDate,
-						scryfallLink,
-						setCode,
-						setName
-					};
-					if (idx < 1) {
-						return {
-							[setCode]: {
-								releaseDate,
-								setCode,
-								setName,
-								cards: {
-									[collectorsNumber]: card
-								}
-							}
-						};
-					} else {
-						if (acc[setCode]) {
-							acc[setCode].cards[collectorsNumber] = card;
-							return acc;
-						} else {
-							return {
-								...acc,
-								[setCode]: {
-									releaseDate,
-									setCode,
-									setName,
-									cards: {
-										[collectorsNumber]: card
-									}
-								}
+				// Build data structure
+				data = {
+					// data.cards
+					cards: data.map(card => ({
+						isCollected: card[0] === 'TRUE',
+						releaseDate: card[1],
+						setCode: card[2],
+						setIdx: card[3],
+						setName: card[4],
+						collectionName: card[5],
+						landType: card[6],
+						collectorsNumber: card[7],
+						imageLink: card[8],
+						scryfallLink: card[9]
+					})),
+					
+					// data.cardSets
+					get cardSets() {
+						// Reduce cards into cardSet groups
+						let cardSets = this.cards.reduce((acc, curr, idx) => {
+							// Define current cardSet
+							let cardSet = {
+								releaseDate: curr.releaseDate,
+								setIdx: curr.setIdx,
+								setName: curr.setName,
+								setCode: curr.setCode,
+								cards: [ curr ]
 							};
-						}
+							
+							// Find existing (target) cardSet
+							let targetCardSet = acc.find(target => (
+								target.releaseDate === cardSet.releaseDate
+								&& target.setIdx === cardSet.setIdx)
+							);
+							
+							// If targetCardSet exists...
+							if (targetCardSet) {
+								// Add current card to target cardSet and return
+								targetCardSet.cards.push(curr);
+								return acc;
+
+							// Else...
+							} else {
+								// Add new cardSet and return
+								acc.push(cardSet);
+								return acc;
+							} 
+						}, []);
+
+						// Return sorted cardSets by releaseDate and setIdx 
+						return cardSets.sort((a, b) => a.releaseDate !== b.releaseDate
+							? b.releaseDate - a.releaseDate
+							: b.setIdx - a.setIdx
+						);
+					},
+					
+					// data.releaseYears
+					get releaseYears() {
+						// Reduce cardSets into releaseYear groups
+						let releaseYears = this.cardSets.reduce((acc, curr, idx) => {
+							// Define current releaseYear
+							let releaseYear = {
+								releaseYear: curr.releaseDate.slice(8),
+								cardSets: [ curr ]
+							};
+
+							// Find existing (target) releaseYear
+							let targetReleaseYear = acc.find(target => (
+								target.releaseYear === releaseYear.releaseYear
+							));
+
+							// If targetReleaseYear exists...
+							if (targetReleaseYear) {
+								// Add current cardSet to target releaseYear and return
+								targetReleaseYear.cardSets.push(curr);
+								return acc;
+
+							// Else...
+							} else {
+								// Add new releaseYear and return
+								acc.push(releaseYear);
+								return acc;
+							}
+						}, []);
+
+						// Return sorted releaseYears
+						return releaseYears.sort((a, b) => b.releaseYear - a.releaseYear);
 					}
-				}, {});
+				};
 
 				// expose data object
 				window.data = data;
 
-				// sort card sets
-				let cards = [];
-				for (let code in data) {
-					cards = [...cards, data[code]];
-				}
-				cards = cards.toSorted((a, b) => Date.parse(b.releaseDate) - Date.parse(a.releaseDate));
-
-				// expose cards object
-				window.cards = cards
-
 				// build page
+				let location = window.location;
+				let origin = location.origin;
+				let pathname = location.pathname
+				let hash = location.hash.slice(1);
+				
 				let body = document.querySelector('body');
-				cards.forEach(cardSet => {
-					let setDiv = document.createElement('div');
-					setDiv.classList.add('set-div');
-					let h2 = document.createElement('h2');
-					h2.textContent = cardSet.setName;
-					setDiv.append(h2);
-					let cardsDiv = document.createElement('div');
-					cardsDiv.classList.add('cards-div');
-					let cards = cardSet.cards;
-					for (let cn in cards) {
-						let card = cards[cn]
-						let cardLink = document.createElement('a');
-						cardLink.classList.add('card-link');
-						cardLink.href = card.scryfallLink;
-						cardLink.target = '_blank';
-						let cardImg = document.createElement('img');
-						let text = `${card.landType} (${card.setName} #${card.collectorsNumber})`;
-						cardImg.alt = text;
-						cardImg.classList.add('card-img');
-						cardImg.loading = 'lazy';
-						cardImg.src = card.imageLink
-						cardImg.title = text;
-						if (card.isCollected) {
-							cardImg.classList.add('is-collected');
-						}
-						cardLink.append(cardImg);
-						cardsDiv.append(cardLink)
-					}
-					setDiv.append(cardsDiv);
-					body.append(setDiv);
+				
+				let h1 = document.createElement('h1');
+				let a = document.createElement('a');
+				a.href = `${origin}${pathname}`;
+				a.textContent = 'Basic Lands';
+				h1.append(a);
+				body.append(h1);
+				
+				let nav = document.createElement('nav');
+				let ul = document.createElement('ul');
+				data.releaseYears.forEach(releaseYear => {
+					let li = document.createElement('li');
+					li.addEventListener('click', (e) => {
+						let targetLi = e.currentTarget;
+						let year = targetLi.textContent;
+						let activeLi = targetLi.parentElement.querySelector('.active');
+						activeLi.classList.remove('active');
+						targetLi.classList.add('active');
+						loadCards(year);
+					});
+					li.classList.add(releaseYear.releaseYear);
+					let a = document.createElement('a');
+					a.href = `#${releaseYear.releaseYear}`;
+					a.textContent = releaseYear.releaseYear;
+					li.append(a);
+					ul.append(li);
 				});
+				nav.append(ul);
+				body.append(nav);
+				
+				// Add .active class to currently selected year (or first year if none)
+				let activeLi = document.querySelector(`[class~="${hash}"]`) || document.querySelector('nav > ul > li');
+				activeLi.classList.add('active');
+
+				let yearDiv = document.createElement('div');
+				yearDiv.classList.add('year-div');
+				body.append(yearDiv);
+				
+				function loadCards(year) {
+					yearDiv.replaceChildren();
+					
+					let cardSets = data.releaseYears.find(releaseYear => releaseYear.releaseYear === year).cardSets;
+					cardSets.forEach(cardSet => {
+						let setDiv = document.createElement('div');
+						setDiv.classList.add('set-div');
+						let h2 = document.createElement('h2');
+						h2.textContent = cardSet.setName;
+						setDiv.append(h2);
+						let cardsDiv = document.createElement('div')
+						cardsDiv.classList.add('cards-div');
+						let cards = cardSet.cards;
+						cards.forEach(card => {
+							let cardLink = document.createElement('a');
+							cardLink.classList.add('card-link');
+							cardLink.href = card.scryfallLink;
+							cardLink.target = '_blank';
+							let cardImg = document.createElement('img');
+							let text = `${card.landType} (${card.setName} #${card.collectorsNumber})`;
+							cardImg.alt = text;
+							cardImg.classList.add('card-img');
+							cardImg.loading = 'lazy';
+							cardImg.src = card.imageLink;
+							cardImg.title = text;
+							if (card.isCollected) cardImg.classList.add('is-collected');
+							cardLink.append(cardImg);
+							cardsDiv.append(cardLink);
+						});
+						setDiv.append(cardsDiv);
+						yearDiv.append(setDiv);
+					});
+				};
+				let activeYear = document.querySelector('nav .active').textContent;
+				loadCards(activeYear);
 			});
 	</script>
 </html>
