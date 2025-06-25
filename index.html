@@ -4,9 +4,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-			:root {
-				--gap-size: 0.5rem;
-			}
 			a {
 				color: inherit;
 				text-decoration: none;
@@ -29,49 +26,38 @@
 				border-radius: 1rem;
 				cursor: pointer;
 				margin: 0 0.5rem;
+				padding: 0 0.5rem;
 
 				&.active {
 					background-color: gray;
 					color: white;
 				}
-
-				a {
-					padding: 0 0.5rem;
-				}
 			}
 			.cards-div {
 				display: flex;
-				flex-wrap: wrap;
-				gap: var(--gap-size);
-				margin: 0 auto;
-				padding: 0 var(--gap-size);
+				flex-direction: column;
+				gap: 0.5vw;
+				margin-bottom: 1.34rem;
 
-				> a {
-					width: calc(50% - var(--gap-size) / 2);
+				> .row-div {
+					display: flex;
+					gap: 0.5vw;
+					padding: 0 1vw;
+				
+					> a {
+						width: 20vw;
 
-					> img {
-						border-radius: 2.5%;
-						opacity: 50%;
-						vertical-align: middle;
-						width: 100%;
+						> img {
+							border-radius: 4.75% / 3.5%;
+							display: block;
+							opacity: 50%;
+							width: 100%;
 
-						&.is-collected {
-							opacity: 100%;
+							&.is-collected {
+								opacity: 100%;
+							}
 						}
 					}
-				}
-			}
-			@media (min-width: 41.25rem) {
-				.cards-div > a {
-					width: calc(33.33% - var(--gap-size) * 2 / 3);
-				}
-			}
-			@media (min-width: 57.5rem) {
-				.cards-div {
-					max-width: 62.5rem;
-				}
-				.cards-div > a {
-					width: calc(25% - var(--gap-size) * 3 / 4);
 				}
 			}
 		</style>
@@ -86,17 +72,41 @@
 		const key = 'AIzaSyADnkNWzw5wme2wHe2PQzpjm-Kv77Hsl_s';
 		const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${key}`;
 		
+		const cardBackImageLink = 'https://files.mtg.wiki/Magic_card_back.jpg'
+
 		// Fetch Card Data
 		fetch(url)
-			.then((response) => response.json())
-			.then((data) => {
+			.then(response => response.json())
+			.then((_data) => {
 				// Remove header row from card data
-				data = data.values.slice(1);
+				_data = _data.values.slice(1);
 				
 				// Build data structure
-				data = {
+				/**
+				 * @typedef {object} Card
+				 * @property {boolean} isCollected
+				 * @property {string} releaseDate
+				 * @property {string} setCode
+				 * @property {string} setIdx
+				 * @property {string} setName
+				 * @property {string} collectionName
+				 * @property {string} landType
+				 * @property {string} collectorsNumber
+				 * @property {string} imageLink
+				 * @property {string} scryfallLink
+				 * @property {string} notes
+				 */
+
+				/** @typedef {object} Data
+				 * @property {Card[]} cards
+				 * @property {object[]} cardSets
+				 * @property {object[]} releaseYears
+				 */
+
+				 /** @type {Data} */
+				let data = {
 					// data.cards
-					cards: data.map(card => ({
+					cards: _data.map(card => ({
 						isCollected: card[0] === 'TRUE',
 						releaseDate: card[1],
 						setCode: card[2],
@@ -106,13 +116,14 @@
 						landType: card[6],
 						collectorsNumber: card[7],
 						imageLink: card[8],
-						scryfallLink: card[9]
+						scryfallLink: card[9],
+						notes: card[10]
 					})),
 					
 					// data.cardSets
 					get cardSets() {
 						// Reduce cards into cardSet groups
-						let cardSets = this.cards.reduce((acc, curr, idx) => {
+						let cardSets = this.cards.reduce((acc, curr) => {
 							// Define current cardSet
 							let cardSet = {
 								releaseDate: curr.releaseDate,
@@ -130,29 +141,31 @@
 							
 							// If targetCardSet exists...
 							if (targetCardSet) {
-								// Add current card to target cardSet and return
-								targetCardSet.cards.push(curr);
-								return acc;
-
+								// Add current card to target cardSet
+								targetCardSet.cards = [ ...targetCardSet.cards, curr ];
 							// Else...
 							} else {
-								// Add new cardSet and return
-								acc.push(cardSet);
-								return acc;
-							} 
-						}, []);
+								// Add new cardSet
+								acc = [ ...acc, cardSet];
+							}
+							return acc;
+						}, /** @type {object[]} */ ([]));
 
-						// Return sorted cardSets by releaseDate and setIdx 
-						return cardSets.sort((a, b) => a.releaseDate !== b.releaseDate
-							? b.releaseDate - a.releaseDate
-							: b.setIdx - a.setIdx
-						);
+						// Sort cardSets by releaseDate and setIdx 
+						cardSets = cardSets.toSorted((a, b) => {
+							if (a.releaseDate !== b.releaseDate) {
+								return b.releaseDate - a.releaseDate;
+							} else {
+								return b.setIdx - a.setIdx;
+							}
+						});
+						return cardSets;
 					},
 					
 					// data.releaseYears
 					get releaseYears() {
 						// Reduce cardSets into releaseYear groups
-						let releaseYears = this.cardSets.reduce((acc, curr, idx) => {
+						let releaseYears = this.cardSets.reduce((acc, curr) => {
 							// Define current releaseYear
 							let releaseYear = {
 								releaseYear: curr.releaseDate.slice(8),
@@ -166,27 +179,26 @@
 
 							// If targetReleaseYear exists...
 							if (targetReleaseYear) {
-								// Add current cardSet to target releaseYear and return
-								targetReleaseYear.cardSets.push(curr);
-								return acc;
-
+								// Add current cardSet to target releaseYear
+								targetReleaseYear.cardSets = [ ...targetReleaseYear.cardSets, curr ];
 							// Else...
 							} else {
-								// Add new releaseYear and return
+								// Add new releaseYear
 								acc.push(releaseYear);
-								return acc;
 							}
+							return acc;
 						}, []);
 
-						// Return sorted releaseYears
-						return releaseYears.sort((a, b) => b.releaseYear - a.releaseYear);
+						// Sort releaseYears
+						releaseYears = releaseYears.toSorted((a, b) => b.releaseYear - a.releaseYear);
+						return releaseYears;
 					}
 				};
 
-				// expose data object
+				// Expose data object
 				window.data = data;
 
-				// build page
+				// Build Page
 				let location = window.location;
 				let origin = location.origin;
 				let pathname = location.pathname
@@ -194,6 +206,7 @@
 				
 				let body = document.querySelector('body');
 				
+				// Header
 				let h1 = document.createElement('h1');
 				let a = document.createElement('a');
 				a.href = `${origin}${pathname}`;
@@ -201,30 +214,29 @@
 				h1.append(a);
 				body.append(h1);
 				
+				// Navigation
 				let nav = document.createElement('nav');
 				let ul = document.createElement('ul');
 				data.releaseYears.forEach(releaseYear => {
 					let li = document.createElement('li');
-					li.addEventListener('click', (e) => {
-						let targetLi = e.currentTarget;
-						let year = targetLi.textContent;
-						let activeLi = targetLi.parentElement.querySelector('.active');
-						activeLi.classList.remove('active');
-						targetLi.classList.add('active');
-						loadCards(year);
-					});
 					li.classList.add(releaseYear.releaseYear);
-					let a = document.createElement('a');
-					a.href = `#${releaseYear.releaseYear}`;
-					a.textContent = releaseYear.releaseYear;
-					li.append(a);
+					li.textContent = releaseYear.releaseYear;
 					ul.append(li);
+				});
+				ul.addEventListener('click', (e) => {
+					if (e.target.tagName === 'LI' && e.target.textContent !== `#${window.location.hash}`) {
+						window.location.hash = e.target.textContent;
+						ul.querySelector('.active').classList.remove('active');
+						e.target.classList.add('active');
+						loadCards(e.target.textContent);
+					}
 				});
 				nav.append(ul);
 				body.append(nav);
 				
 				// Add .active class to currently selected year (or first year if none)
-				let activeLi = document.querySelector(`[class~="${hash}"]`) || document.querySelector('nav > ul > li');
+				let activeLi = document.querySelector(`[class~="${hash}"]`)
+					|| document.querySelector('nav > ul > li');
 				activeLi.classList.add('active');
 
 				let yearDiv = document.createElement('div');
@@ -234,7 +246,8 @@
 				function loadCards(year) {
 					yearDiv.replaceChildren();
 					
-					let cardSets = data.releaseYears.find(releaseYear => releaseYear.releaseYear === year).cardSets;
+					let cardSets = data.releaseYears
+						.find(releaseYear => releaseYear.releaseYear === year).cardSets;
 					cardSets.forEach(cardSet => {
 						let setDiv = document.createElement('div');
 						setDiv.classList.add('set-div');
@@ -244,22 +257,52 @@
 						let cardsDiv = document.createElement('div')
 						cardsDiv.classList.add('cards-div');
 						let cards = cardSet.cards;
-						cards.forEach(card => {
+						let landTypes = cards.reduce((acc, curr) => {
+							let idx = ['Snow-Covered Plains', 'Snow-Covered Island', 'Snow-Covered Swamp', 'Snow-Covered Mountain', 'Snow-Covered Forest']
+								.findIndex(landType => landType.includes(curr.landType));
+							if (idx > -1) {
+								acc[idx] = [ ...acc[idx], curr ];
+							}
+							return acc;
+						}, [[],[],[],[],[]]);
+						let rows = landTypes[0].map((_, idx) => landTypes.map(row => row[idx]));
+						// Handle special case for Mountain Goats set
+						if (cardSet.setName.includes('Mountain Goats')) {
+							rows = [
+								[cards[0], cards[1], cards[2], cards[3], cards[4]],
+								[cards[5], cards[6], cards[7], cards[8], cards[9]],
+							];
+						}
+						// Handle special case for Commander Masters set
+						if (cardSet.setCode === 'CMM') {
+							rows = [ ...rows.slice(0, -2), [ cards[18], cards[19], {}, {}, {} ] ];
+						}
+						let rowDiv;
+						rows.forEach(row => row.forEach((card, idx) => {
+							if (idx % 5 === 0) {
+								rowDiv = document.createElement('div');
+								rowDiv.classList.add('row-div');
+							}
 							let cardLink = document.createElement('a');
 							cardLink.classList.add('card-link');
-							cardLink.href = card.scryfallLink;
+							cardLink.href = card?.scryfallLink || '';
 							cardLink.target = '_blank';
 							let cardImg = document.createElement('img');
-							let text = `${card.landType} (${card.setName} #${card.collectorsNumber})`;
+							let text = `${card?.landType} (${card?.setName} #${card?.collectorsNumber})`;
 							cardImg.alt = text;
 							cardImg.classList.add('card-img');
 							cardImg.loading = 'lazy';
-							cardImg.src = card.imageLink;
+							cardImg.src = card?.imageLink || cardBackImageLink;
 							cardImg.title = text;
-							if (card.isCollected) cardImg.classList.add('is-collected');
+							if (card?.isCollected) {
+								cardImg.classList.add('is-collected');
+							}
 							cardLink.append(cardImg);
-							cardsDiv.append(cardLink);
-						});
+							rowDiv.append(cardLink);
+							if (idx % 5 === 4) {
+								cardsDiv.append(rowDiv);
+							}
+						}));
 						setDiv.append(cardsDiv);
 						yearDiv.append(setDiv);
 					});
