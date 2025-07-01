@@ -44,11 +44,28 @@
 					}
 				}
 
-				/* cardsDiv */
-				main > div > div {
+				/* setDiv */
+				main > div {
+					
+					> h2 {
+						margin: 1rem 0 0.5rem;
+					}
+					
+					/* cardsDiv */
+					> div {
 					display: flex;
 					flex-direction: column;
 					gap: 0.5vw;
+
+					> h3 {
+						font-size: 0.75rem;
+						font-weight: normal;
+						margin: 0.5rem 0 0.25rem;
+
+						&:first-child {
+							margin-top: 0;
+						}
+					}
 
 					/* rowDiv */
 					> div {
@@ -317,8 +334,42 @@
 
 						// Create a div for each set
 						let rowDiv;
-						rows.forEach(row => row.forEach((card, idx) => {
-							if (idx % 5 === 0) {
+						rows.forEach((row, idx) => row.forEach((card, jdx) => {
+							let collectionName = row.find(card => card.collectionName).collectionName;
+							let lastRowCollectionName = rows.at(-1).find(card => card.collectionName).collectionName;
+							if (jdx % 5 === 0) {
+								// If first row
+								if (idx === 0) {
+									// If not 'Basic'
+									if (collectionName !== 'Basic') {
+										// If collection name is 'Full-Art'
+										if (collectionName === 'Full-Art') {
+											// If collection name will change
+											if (collectionName !== lastRowCollectionName) {
+												let h3 = document.createElement('h3');
+												h3.textContent = collectionName;
+												cardsDiv.append(h3);
+											}
+										}
+										// If collection name is not 'Full-Art'
+										if (collectionName !== 'Full-Art') {
+											let h3 = document.createElement('h3');
+											h3.textContent = collectionName;
+											cardsDiv.append(h3);
+										}
+									}
+								}
+								// If not first row
+								if (idx !== 0) {
+									let previousRowCollectionName = rows[idx - 1].find(card => card.collectionName).collectionName;
+									// If collection name changed from previous row
+									if (collectionName !== previousRowCollectionName) {
+										let h3 = document.createElement('h3');
+										h3.textContent = collectionName;
+										cardsDiv.append(h3);
+									}
+									
+								}
 								rowDiv = document.createElement('div');
 							}
 							let cardA = document.createElement('a');
@@ -339,7 +390,7 @@
 							}
 							cardA.append(cardImg);
 							rowDiv.append(cardA);
-							if (idx % 5 === 4) {
+							if (jdx % 5 === 4) {
 								cardsDiv.append(rowDiv);
 							}
 						}));
