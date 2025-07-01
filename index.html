@@ -24,6 +24,10 @@
 				margin: 0;
 				text-align: center;
 
+				> h1 {
+					font-size: 2rem;
+				}
+
 				> nav > ul {
 					display: flex;
 					flex-wrap: wrap;
@@ -48,6 +52,7 @@
 				main > div {
 					
 					> h2 {
+						font-size: 1.5rem;
 						margin: 1rem 0 0.5rem;
 					}
 					
@@ -58,7 +63,7 @@
 					gap: 0.5vw;
 
 					> h3 {
-						font-size: 0.75rem;
+						font-size: 1rem;
 						font-weight: normal;
 						margin: 0.5rem 0 0.25rem;
 
@@ -325,7 +330,7 @@
 						}
 
 						// Handle special case for Mountain Goats set
-						if (cardSet.setName.includes('Mountain Goats')) {
+						if (cardSet.cards.find(card => card.collectionName.includes('Mountain Goats'))) {
 							rows = [
 								[cards[0], cards[1], cards[2], cards[3], cards[4]],
 								[cards[5], cards[6], cards[7], cards[8], cards[9]],
