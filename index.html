@@ -114,6 +114,14 @@
 										opacity: 50%;
 										width: 19.2vw;
 
+										&.is-en-route {
+											opacity: 100%;
+											position: relative;
+											top: 0;
+											transform: rotate(10deg);
+											z-index: 1;
+										}
+
 										&.is-collected {
 											opacity: 100%;
 										}
@@ -160,6 +168,7 @@
 				/**
 				 * @typedef {object} Card
 				 * @property {boolean} isCollected
+				 * @property {boolean} isEnRoute
 				 * @property {string} releaseDate
 				 * @property {string} setCode
 				 * @property {string} setIdx
@@ -183,16 +192,17 @@
 					// data.cards
 					cards: _data.map(card => ({
 						isCollected: card[0] === 'TRUE',
-						releaseDate: card[1],
-						setCode: card[2],
-						setIdx: card[3],
-						setName: card[4],
-						collectionName: card[5],
-						landType: card[6],
-						collectorsNumber: card[7],
-						imageLink: card[8],
-						scryfallLink: card[9],
-						notes: card[10]
+						isEnRoute: card[1] === 'TRUE',
+						releaseDate: card[2],
+						setCode: card[3],
+						setIdx: card[4],
+						setName: card[5],
+						collectionName: card[6],
+						landType: card[7],
+						collectorsNumber: card[8],
+						imageLink: card[9],
+						scryfallLink: card[10],
+						notes: card[11]
 					})),
 					
 					// data.cardSets
@@ -427,6 +437,9 @@
 							cardImg.src = card.imageLink;
 							if (card.isCollected) {
 								cardImg.classList.add('is-collected');
+							}
+							if (card.isEnRoute) {
+								cardImg.classList.add('is-en-route');
 							}
 							cardA.append(cardImg);
 							rowDiv.append(cardA);
