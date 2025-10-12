@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
@@ -41,7 +41,7 @@
 					flex-wrap: wrap;
 					justify-content: center;
 					gap: 0.5rem;
-				
+
 					> li {
 						border: 1px solid gray;
 						border-radius: 1rem;
@@ -65,7 +65,7 @@
 							font-size: 1.5rem;
 							margin: 1rem 0 0.5rem;
 						}
-						
+
 						/* Cards */
 						> div {
 						display: flex;
@@ -85,7 +85,7 @@
 									top: 0.5lh;
 									z-index: -1;
 								}
-								
+
 								&:first-child {
 									margin-top: 0;
 								}
@@ -105,7 +105,7 @@
 								&:first-child {
 									margin-top: 0.5rem;
 								}
-						
+
 								> a {
 									display: flex;
 									flex-direction: column;
@@ -162,21 +162,19 @@
 			}
 		</style>
 	</head>
-	<body>
-		
-	</body>
+	<body></body>
 	<script>
 		// General Variables
 		let landTypes = [
-			[ 'Plains', 'Snow-Covered Plains' ],
-			[ 'Island', 'Snow-Covered Island' ],
-			[ 'Swamp', 'Snow-Covered Swamp' ],
-			[ 'Mountain', 'Snow-Covered Mountain' ],
-			[ 'Forest', 'Snow-Covered Forest' ],
+			['Plains', 'Snow-Covered Plains'],
+			['Island', 'Snow-Covered Island'],
+			['Swamp', 'Snow-Covered Swamp'],
+			['Mountain', 'Snow-Covered Mountain'],
+			['Forest', 'Snow-Covered Forest'],
 		];
 		let placeholderCard = {
 			imageLink: 'https://files.mtg.wiki/Magic_card_back.jpg',
-			isCollected: false
+			isCollected: false,
 		};
 
 		// API Variables
@@ -184,14 +182,14 @@
 		const range = 'API';
 		const key = 'AIzaSyADnkNWzw5wme2wHe2PQzpjm-Kv77Hsl_s';
 		const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${key}`;
-		
+
 		// Fetch Card Data
 		fetch(url)
-			.then(response => response.json())
+			.then((response) => response.json())
 			.then((_data) => {
 				// Remove header row from card data
 				_data = _data.values.slice(1);
-				
+
 				// Build data structure
 				/**
 				 * @typedef {object} Card
@@ -216,10 +214,10 @@
 				 * @property {object[]} releaseYears
 				 */
 
-				 /** @type {Data} */
+				/** @type {Data} */
 				let data = {
 					// data.cards
-					cards: _data.map(card => ({
+					cards: _data.map((card) => ({
 						isCollected: card[0] === 'TRUE',
 						isEnRoute: card[1] === 'TRUE',
 						releaseDate: card[2],
@@ -234,7 +232,7 @@
 						notes: card[11],
 						usd: card[12],
 					})),
-					
+
 					// data.cardSets
 					get cardSets() {
 						// Reduce cards into cardSet groups
@@ -245,28 +243,27 @@
 								setIdx: curr.setIdx,
 								setName: curr.setName,
 								setCode: curr.setCode,
-								cards: [ curr ]
+								cards: [curr],
 							};
-							
+
 							// Find existing (target) cardSet
-							let targetCardSet = acc.find(target => (
-								target.releaseDate === cardSet.releaseDate
-								&& target.setIdx === cardSet.setIdx)
+							let targetCardSet = acc.find(
+								(target) => target.releaseDate === cardSet.releaseDate && target.setIdx === cardSet.setIdx,
 							);
-							
+
 							// If targetCardSet exists...
 							if (targetCardSet) {
 								// Add current card to target cardSet
-								targetCardSet.cards = [ ...targetCardSet.cards, curr ];
-							// Else...
+								targetCardSet.cards = [...targetCardSet.cards, curr];
+								// Else...
 							} else {
 								// Add new cardSet
-								acc = [ ...acc, cardSet];
+								acc = [...acc, cardSet];
 							}
 							return acc;
 						}, []);
 
-						// Sort cardSets by releaseDate and setIdx 
+						// Sort cardSets by releaseDate and setIdx
 						cardSets = cardSets.toSorted((a, b) => {
 							if (a.releaseDate !== b.releaseDate) {
 								return b.releaseDate - a.releaseDate;
@@ -276,7 +273,7 @@
 						});
 						return cardSets;
 					},
-					
+
 					// data.releaseYears
 					get releaseYears() {
 						// Reduce cardSets into releaseYear groups
@@ -284,19 +281,17 @@
 							// Define current releaseYear
 							let releaseYear = {
 								releaseYear: curr.releaseDate.slice(8),
-								cardSets: [ curr ]
+								cardSets: [curr],
 							};
 
 							// Find existing (target) releaseYear
-							let targetReleaseYear = acc.find(target => (
-								target.releaseYear === releaseYear.releaseYear
-							));
+							let targetReleaseYear = acc.find((target) => target.releaseYear === releaseYear.releaseYear);
 
 							// If targetReleaseYear exists...
 							if (targetReleaseYear) {
 								// Add current cardSet to target releaseYear
-								targetReleaseYear.cardSets = [ ...targetReleaseYear.cardSets, curr ];
-							// Else...
+								targetReleaseYear.cardSets = [...targetReleaseYear.cardSets, curr];
+								// Else...
 							} else {
 								// Add new releaseYear
 								acc.push(releaseYear);
@@ -307,7 +302,7 @@
 						// Sort releaseYears
 						releaseYears = releaseYears.toSorted((a, b) => b.releaseYear - a.releaseYear);
 						return releaseYears;
-					}
+					},
 				};
 
 				// Expose data object
@@ -316,11 +311,11 @@
 				// Build Page
 				let location = window.location;
 				let origin = location.origin;
-				let pathname = location.pathname
+				let pathname = location.pathname;
 				let hash = location.hash.slice(1);
-				
+
 				let body = document.querySelector('body');
-				
+
 				// Header
 				let h1 = document.createElement('h1');
 				let a = document.createElement('a');
@@ -328,17 +323,17 @@
 				a.textContent = 'Basic Lands';
 				h1.append(a);
 				body.append(h1);
-				
+
 				// Navigation
 				let nav = document.createElement('nav');
 				let ul = document.createElement('ul');
-				data.releaseYears.forEach(releaseYear => {
+				data.releaseYears.forEach((releaseYear) => {
 					let li = document.createElement('li');
 					li.dataset.year = releaseYear.releaseYear;
 					li.textContent = releaseYear.releaseYear;
 					ul.append(li);
 				});
-				ul.addEventListener('click', e => {
+				ul.addEventListener('click', (e) => {
 					if (e.target.tagName === 'LI') {
 						window.location.hash = e.target.dataset.year;
 						ul.querySelector('.active').classList.remove('active');
@@ -348,7 +343,7 @@
 				});
 				nav.append(ul);
 				body.append(nav);
-				
+
 				// Add .active class to currently selected year (or first year if none)
 				let activeLi = document.querySelector(`[data-year="${hash}"]`);
 				if (!activeLi) {
@@ -359,19 +354,18 @@
 				// Main Content
 				let main = document.createElement('main');
 				body.append(main);
-				
+
 				// Load Cards for the active year
 				function loadCards(year) {
 					// Clear main content
 					main.replaceChildren();
-					
+
 					// Find all cardSets for the given year
-					let cardSets = data.releaseYears
-						.find(releaseYear => releaseYear.releaseYear === year);
+					let cardSets = data.releaseYears.find((releaseYear) => releaseYear.releaseYear === year);
 					cardSets = cardSets.cardSets;
 
 					// Create a div for each cardSet
-					cardSets.forEach(cardSet => {
+					cardSets.forEach((cardSet) => {
 						let cardSetDiv = document.createElement('div');
 						let h2 = document.createElement('h2');
 						h2.textContent = cardSet.setName;
@@ -380,17 +374,18 @@
 						// Create a div for the cards in the cardSet
 						let cardsDiv = document.createElement('div');
 						let cards = cardSet.cards;
-						let cardTypes = cards.reduce((acc, curr) => {
-							let idx = landTypes.findIndex(
-								landType => landType.includes(curr.landType)
-							);
-							acc[idx] = [ ...acc[idx], curr ];
-							return acc;
-						}, [ [], [], [], [], [] ]);
+						let cardTypes = cards.reduce(
+							(acc, curr) => {
+								let idx = landTypes.findIndex((landType) => landType.includes(curr.landType));
+								acc[idx] = [...acc[idx], curr];
+								return acc;
+							},
+							[[], [], [], [], []],
+						);
 
 						// Create rows of cards containing one of each land type
 						let rows = [];
-						while(cardTypes.some(type => type.length > 0)) {
+						while (cardTypes.some((type) => type.length > 0)) {
 							let row = [];
 							landTypes.forEach((landType, idx) => {
 								row.push(cardTypes[idx].shift() || placeholderCard);
@@ -398,28 +393,71 @@
 							rows.push(row);
 						}
 
-						// Handle special case for Mountain Goats set
-						if (cardSet.cards.find(card => card.collectionName.includes('Mountain Goats'))) {
+						// Handle special cases
+						// Commander Masters
+						if (cardSet.cards.find((card) => card.setCode === 'CMM')) {
+							rows = [
+								[cards[0], cards[3], cards[6], cards[9], cards[12]],
+								[cards[1], cards[4], cards[7], cards[10], cards[13]],
+								[cards[2], cards[5], cards[8], cards[11], cards[14]],
+								[cards[15], cards[20], cards[23], cards[26], cards[29]],
+								[cards[16], cards[21], cards[24], cards[27], cards[30]],
+								[cards[17], cards[22], cards[25], cards[28], cards[31]],
+								[cards[18], cards[19], placeholderCard, placeholderCard, placeholderCard],
+							];
+						}
+						// Mountain Goats set
+						if (cardSet.cards.find((card) => card.collectionName.includes('Mountain Goats'))) {
 							rows = [
 								[cards[0], cards[1], cards[2], cards[3], cards[4]],
 								[cards[5], cards[6], cards[7], cards[8], cards[9]],
 							];
 						}
+						// Warhammer 40K
+						if (cardSet.cards.find((card) => card.setCode === '40K')) {
+							rows = [
+								[cards[0], cards[1], cards[2], cards[3], cards[4]],
+								[placeholderCard, cards[5], cards[6], cards[7], placeholderCard],
+								[placeholderCard, cards[8], cards[9], cards[10], cards[11]],
+							];
+						}
+						// Secret Lair: Artist Series: Sidharth Chaturvedi / Magali Villeneuve
+						if (cardSet.cards.find((card) => card.setCode === 'SLD' && card.releaseDate === 'Apr 11, 2022')) {
+							rows = [[placeholderCard, cards[0], placeholderCard, cards[1], cards[2]]];
+						}
+						// Astrology Lands
+						if (cardSet.cards.find(card => card.setCode === 'SLD' && card.releaseDate === 'Jan 04, 2022')) {
+							rows = [
+								[cards[0], cards[1], cards[2], cards[3], cards[4]],
+								[cards[5], cards[6], cards[7], cards[8], cards[9]],
+								[cards[10], cards[11], placeholderCard, placeholderCard, placeholderCard]
+							];
+						}
 
 						// Create a div for each set
 						let rowDiv;
-						rows.forEach((row, idx) => row.forEach((card, jdx) => {
-							let collectionName = row.find(card => card.collectionName).collectionName;
-							let lastRowCollectionName = rows.at(-1).find(card => card.collectionName).collectionName;
-							if (jdx % 5 === 0) {
-								// If first row
-								if (idx === 0) {
-									// If not 'Basic'
-									if (collectionName !== 'Basic') {
-										// If collection name is 'Full-Art'
-										if (collectionName === 'Full-Art') {
-											// If collection name will change
-											if (collectionName !== lastRowCollectionName) {
+						rows.forEach((row, idx) =>
+							row.forEach((card, jdx) => {
+								let collectionName = row.find((card) => card.collectionName).collectionName;
+								let lastRowCollectionName = rows.at(-1).find((card) => card.collectionName).collectionName;
+								if (jdx % 5 === 0) {
+									// If first row
+									if (idx === 0) {
+										// If not 'Basic'
+										if (collectionName !== 'Basic') {
+											// If collection name is 'Full-Art'
+											if (collectionName === 'Full-Art') {
+												// If collection name will change
+												if (collectionName !== lastRowCollectionName) {
+													let h3 = document.createElement('h3');
+													let span = document.createElement('span');
+													span.textContent = collectionName;
+													h3.append(span);
+													cardsDiv.append(h3);
+												}
+											}
+											// If collection name is not 'Full-Art'
+											if (collectionName !== 'Full-Art') {
 												let h3 = document.createElement('h3');
 												let span = document.createElement('span');
 												span.textContent = collectionName;
@@ -427,8 +465,12 @@
 												cardsDiv.append(h3);
 											}
 										}
-										// If collection name is not 'Full-Art'
-										if (collectionName !== 'Full-Art') {
+									}
+									// If not first row
+									if (idx !== 0) {
+										let previousRowCollectionName = rows[idx - 1].find((card) => card.collectionName).collectionName;
+										// If collection name changed from previous row
+										if (collectionName !== previousRowCollectionName) {
 											let h3 = document.createElement('h3');
 											let span = document.createElement('span');
 											span.textContent = collectionName;
@@ -436,68 +478,57 @@
 											cardsDiv.append(h3);
 										}
 									}
+									rowDiv = document.createElement('div');
 								}
-								// If not first row
-								if (idx !== 0) {
-									let previousRowCollectionName = rows[idx - 1].find(card => card.collectionName).collectionName;
-									// If collection name changed from previous row
-									if (collectionName !== previousRowCollectionName) {
-										let h3 = document.createElement('h3');
-										let span = document.createElement('span');
-										span.textContent = collectionName;
-										h3.append(span);
-										cardsDiv.append(h3);
+								let cardA = document.createElement('a');
+								if (card.scryfallLink) {
+									cardA.href = card.scryfallLink;
+									cardA.target = '_blank';
+								}
+								let cardImg = document.createElement('img');
+								cardImg.loading = 'lazy';
+								if (card.landType) {
+									let text = `${card.landType} (${card.setName} #${card.collectorsNumber})`;
+									cardImg.alt = text;
+									cardImg.title = text;
+								}
+								cardImg.src = card.imageLink;
+								if (card.isCollected) {
+									cardImg.classList.add('is-collected');
+								}
+								if (card.isEnRoute) {
+									cardImg.classList.add('is-en-route');
+								}
+								cardA.append(cardImg);
+								if (card.usd && card.usd !== '#NUM!') {
+									let usdDiv = document.createElement('div');
+									usdDiv.textContent = card.usd;
+									let usdNum = card.usd.slice(2);
+									if (usdNum >= 10) {
+										usdDiv.classList.add('ten-dollars');
+									} else if (usdNum >= 5) {
+										usdDiv.classList.add('five-dollars');
+									} else if (usdNum >= 2) {
+										usdDiv.classList.add('two-dollars');
+									} else if (usdNum >= 1) {
+										usdDiv.classList.add('one-dollar');
 									}
-									
+									cardA.append(usdDiv);
 								}
-								rowDiv = document.createElement('div');
-							}
-							let cardA = document.createElement('a');
-							if (card.scryfallLink) {
-								cardA.href = card.scryfallLink;
-								cardA.target = '_blank';
-							}
-							let cardImg = document.createElement('img');
-							cardImg.loading = 'lazy';
-							if (card.landType) {
-								let text = `${card.landType} (${card.setName} #${card.collectorsNumber})`;
-								cardImg.alt = text;
-								cardImg.title = text;
-							}
-							cardImg.src = card.imageLink;
-							if (card.isCollected) {
-								cardImg.classList.add('is-collected');
-							}
-							if (card.isEnRoute) {
-								cardImg.classList.add('is-en-route');
-							}
-							cardA.append(cardImg);
-							if (card.usd && card.usd !== '#NUM!') {
-								let usdDiv = document.createElement('div');
-								usdDiv.textContent = card.usd;
-								let usdNum = card.usd.slice(2);
-								if (usdNum >= 10 ) {
-									usdDiv.classList.add('ten-dollars');
-								} else if (usdNum >= 5) {
-									usdDiv.classList.add('five-dollars');
-								} else if (usdNum >= 2) {
-									usdDiv.classList.add('two-dollars');
-								} else if (usdNum >= 1) {
-									usdDiv.classList.add('one-dollar');
+								rowDiv.append(cardA);
+								if (jdx % 5 === 4) {
+									cardsDiv.append(rowDiv);
 								}
-								cardA.append(usdDiv);
-							}
-							rowDiv.append(cardA);
-							if (jdx % 5 === 4) {
-								cardsDiv.append(rowDiv);
-							}
-						}));
+							}),
+						);
 						cardSetDiv.append(cardsDiv);
 						main.append(cardSetDiv);
 					});
-				};
+				}
 				let activeYear = document.querySelector('nav .active').textContent;
 				loadCards(activeYear);
+
+				window.data = data;
 			});
 	</script>
 </html>
