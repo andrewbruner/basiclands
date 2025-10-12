@@ -62,12 +62,14 @@
 					> div {
 
 						> h2 {
+							cursor: pointer;
 							font-size: 1.5rem;
 							margin: 1rem 0 0.5rem;
 						}
 
 						/* Cards */
 						> div {
+						align-items: center;
 						display: flex;
 						flex-direction: column;
 						gap: 0.5vw;
@@ -100,7 +102,8 @@
 							> div {
 								display: flex;
 								gap: 0.5vw;
-								padding: 0 1vw;
+								margin: 0 1vw;
+								max-width: 62.5rem;
 
 								&:first-child {
 									margin-top: 0.5rem;
@@ -115,7 +118,7 @@
 										border-radius: 4.75% / 3.5%;
 										display: block;
 										opacity: 50%;
-										width: 19.2vw;
+										width: 100%;
 
 										&.is-en-route {
 											opacity: 100%;
@@ -191,30 +194,6 @@
 				_data = _data.values.slice(1);
 
 				// Build data structure
-				/**
-				 * @typedef {object} Card
-				 * @property {boolean} isCollected
-				 * @property {boolean} isEnRoute
-				 * @property {string} releaseDate
-				 * @property {string} setCode
-				 * @property {string} setIdx
-				 * @property {string} setName
-				 * @property {string} collectionName
-				 * @property {string} landType
-				 * @property {string} collectorsNumber
-				 * @property {string} imageLink
-				 * @property {string} scryfallLink
-				 * @property {string} notes
-				 * @property {string} usd
-				 */
-
-				/** @typedef {object} Data
-				 * @property {Card[]} cards
-				 * @property {object[]} cardSets
-				 * @property {object[]} releaseYears
-				 */
-
-				/** @type {Data} */
 				let data = {
 					// data.cards
 					cards: _data.map((card) => ({
@@ -230,7 +209,6 @@
 						imageLink: card[9],
 						scryfallLink: card[10],
 						notes: card[11],
-						usd: card[12],
 					})),
 
 					// data.cardSets
@@ -369,6 +347,9 @@
 						let cardSetDiv = document.createElement('div');
 						let h2 = document.createElement('h2');
 						h2.textContent = cardSet.setName;
+						h2.addEventListener("click", (event) => {
+							console.log(event.target);
+						});
 						cardSetDiv.append(h2);
 
 						// Create a div for the cards in the cardSet
@@ -500,21 +481,21 @@
 									cardImg.classList.add('is-en-route');
 								}
 								cardA.append(cardImg);
-								if (card.usd && card.usd !== '#NUM!') {
-									let usdDiv = document.createElement('div');
-									usdDiv.textContent = card.usd;
-									let usdNum = card.usd.slice(2);
-									if (usdNum >= 10) {
-										usdDiv.classList.add('ten-dollars');
-									} else if (usdNum >= 5) {
-										usdDiv.classList.add('five-dollars');
-									} else if (usdNum >= 2) {
-										usdDiv.classList.add('two-dollars');
-									} else if (usdNum >= 1) {
-										usdDiv.classList.add('one-dollar');
-									}
-									cardA.append(usdDiv);
-								}
+								// if (card.usd && card.usd !== '#NUM!') {
+								// 	let usdDiv = document.createElement('div');
+								// 	usdDiv.textContent = card.usd;
+								// 	let usdNum = card.usd.slice(2);
+								// 	if (usdNum >= 10) {
+								// 		usdDiv.classList.add('ten-dollars');
+								// 	} else if (usdNum >= 5) {
+								// 		usdDiv.classList.add('five-dollars');
+								// 	} else if (usdNum >= 2) {
+								// 		usdDiv.classList.add('two-dollars');
+								// 	} else if (usdNum >= 1) {
+								// 		usdDiv.classList.add('one-dollar');
+								// 	}
+								// 	cardA.append(usdDiv);
+								// }
 								rowDiv.append(cardA);
 								if (jdx % 5 === 4) {
 									cardsDiv.append(rowDiv);
