@@ -2,10 +2,14 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward"
+		/>
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-			/* Reset default styles */
+			/* Reset */
 			a {
 				color: inherit;
 				text-decoration: none;
@@ -31,16 +35,18 @@
 				font-family: Roboto, sans-serif;
 				text-align: center;
 
+				/* Main Header */
 				> h1 {
 					font-size: 2rem;
 					margin: 1rem 0;
 				}
 
+				/* Navigation */
 				> nav > ul {
 					display: flex;
 					flex-wrap: wrap;
-					justify-content: center;
 					gap: 0.5rem;
+					justify-content: center;
 
 					> li {
 						border: 1px solid gray;
@@ -55,113 +61,134 @@
 					}
 				}
 
-				main {
-					margin-bottom: 1rem;
-
-					/* Card Set */
+				/* Card Set */
+				main > div {
+					/* Set Name */
+					> h2 {
+						cursor: pointer;
+						font-size: 1.5rem;
+						margin: 1rem 0;
+					}
+					/* Cards */
 					> div {
+						/* Collection Name */
+						> h3 {
+							margin: 0.5rem 1rem;
 
-						> h2 {
-							cursor: pointer;
-							font-size: 1.5rem;
-							margin: 1rem 0 0.5rem;
-						}
-
-						/* Cards */
-						> div {
-						align-items: center;
-						display: flex;
-						flex-direction: column;
-						gap: 0.5vw;
-
-							/* Collection Name */
-							> h3 {
-								margin: 0.5rem 1rem;
-
-								&::before {
-									background-color: gray;
-									content: '';
-									display: block;
-									height: 0.05rem;
-									position: relative;
-									top: 0.5lh;
-									z-index: -1;
-								}
-
-								&:first-child {
-									margin-top: 0;
-								}
-
-								> span {
-									background-color: white;
-									padding: 0 1rem;
-								}
+							&::before {
+								background-color: gray;
+								content: '';
+								display: block;
+								height: 0.05rem;
+								max-width: calc(47.34375rem + 2vw);
+								margin: auto;
+								position: relative;
+								top: 0.5lh;
+								z-index: -1;
 							}
 
-							/* Card Row */
-							> div {
-								display: flex;
-								gap: 0.5vw;
-								margin: 0 1vw;
-								max-width: 62.5rem;
+							> span {
+								background-color: white;
+								padding: 0 1rem;
+							}
+						}
 
-								&:first-child {
-									margin-top: 0.5rem;
+						/* Card Row */
+						> div {
+							display: flex;
+							gap: 0.5vw;
+							justify-content: center;
+							margin: 0 1vw 0.5vw;
+
+							> a {
+								display: flex;
+								flex-direction: column;
+								align-items: center;
+
+								/* Card Image */
+								> img {
+									aspect-ratio: 2.5 / 3.5;
+									object-fit: cover;
+									border-radius: 4.75% / 3.5%;
+									display: block;
+									opacity: 50%;
+									max-width: 9.46875rem;
+									width: 100%;
+
+									&.is-en-route {
+										opacity: 100%;
+										position: relative;
+										top: 0;
+										transform: rotate(10deg);
+										z-index: 1;
+									}
+
+									&.is-collected {
+										opacity: 100%;
+									}
 								}
 
-								> a {
-									display: flex;
-									flex-direction: column;
-									align-items: center;
-
-									> img {
-										border-radius: 4.75% / 3.5%;
-										display: block;
-										opacity: 50%;
-										width: 100%;
-
-										&.is-en-route {
-											opacity: 100%;
-											position: relative;
-											top: 0;
-											transform: rotate(10deg);
-											z-index: 1;
-										}
-
-										&.is-collected {
-											opacity: 100%;
-										}
-									}
-
-									> div {
-										border-radius: 1em;
-										font-size: 0.75em;
-										margin-top: 0.25em;
-										padding: 0 0.5em;
-										width: fit-content;
-
-										&.one-dollar {
-											background-color: #d9ead3;
-											border: 1px solid gray;
-										}
-										&.two-dollars {
-											background-color: #fff2cc;
-											border: 1px solid gray;
-										}
-										&.five-dollars {
-											background-color: #e6b8af;
-											border: 1px solid gray;
-										}
-										&.ten-dollars {
-											background-color: #d9d2e9;
-											border: 1px solid gray;
-										}
-									}
+								> div {
+									border-radius: 1em;
+									font-size: 0.75em;
+									margin: 0.25em 0;
+									padding: 0 0.5em;
+									width: fit-content;
 								}
 							}
 						}
 					}
 				}
+
+				footer {
+					align-items: center;
+					display: flex;
+					justify-content: center;
+					margin-bottom: 1rem;
+					position: relative;
+
+					> .key {
+						align-items: center;
+						display: flex;
+						gap: 0.5rem;
+						justify-content: center;
+
+						> div {
+							border-radius: 1rem;
+							font-size: 0.75rem;
+							margin: 0.25rem 0;
+							padding: 0 0.5rem;
+							width: fit-content;
+						}
+					}
+
+					> .material-symbols-outlined {
+						cursor: pointer;
+						position: absolute;
+						right: 1rem;
+					}
+
+				}
+			}
+			.one-dollar {
+				background-color: #D3E8CF;
+				border: 1px solid gray;
+			}
+			.two-dollars {
+				background-color: #F8D9A0;
+				border: 1px solid gray;
+			}
+			.five-dollars {
+				background-color: #E9B1AE;
+				border: 1px solid gray;
+			}
+			.ten-dollars {
+				background-color: #AFC8E9;
+				border: 1px solid gray;
+			}
+			.twenty-dollars {
+				background-color: #D9C2E9;
+				border: 1px solid gray;
 			}
 		</style>
 	</head>
@@ -333,6 +360,43 @@
 				let main = document.createElement('main');
 				body.append(main);
 
+				// Footer Content
+				let footer = document.createElement('footer');
+				let key = document.createElement('div');
+				key.classList.add('key');
+				let one = document.createElement('div');
+				one.classList.add('one-dollar');
+				one.textContent = '$1.00';
+				key.append(one);
+				let two = document.createElement('div');
+				two.classList.add('two-dollars');
+				two.textContent = '$2.00';
+				key.append(two);
+				let five = document.createElement('div');
+				five.classList.add('five-dollars');
+				five.textContent = '$5.00';
+				key.append(five);
+				let ten = document.createElement('div');
+				ten.classList.add('ten-dollars');
+				ten.textContent = '$10.00';
+				key.append(ten);
+				let twenty = document.createElement('div');
+				twenty.classList.add('twenty-dollars');
+				twenty.textContent = '$20.00';
+				key.append(twenty);
+				footer.append(key);
+				let arrowUpward = document.createElement('div');
+				arrowUpward.classList.add('material-symbols-outlined');
+				arrowUpward.textContent = 'arrow_upward';
+				arrowUpward.addEventListener('click', (event) => {
+					window.scrollTo({
+						top: 0,
+						behavior: 'smooth',
+					});
+				});
+				footer.append(arrowUpward);
+				body.append(footer);
+
 				// Load Cards for the active year
 				function loadCards(year) {
 					// Clear main content
@@ -347,8 +411,50 @@
 						let cardSetDiv = document.createElement('div');
 						let h2 = document.createElement('h2');
 						h2.textContent = cardSet.setName;
-						h2.addEventListener("click", (event) => {
-							console.log(event.target);
+						h2.addEventListener('click', (event) => {
+							if (![...h2.classList].includes('clicked')) {
+								h2.classList.add('clicked');
+								let target = event.target;
+								let parent = target.parentElement;
+								let cards = [...parent.querySelectorAll('img')];
+								let collection = [];
+								cards.forEach((card) => {
+									let href = card.parentElement.href.split('/');
+									if (href.length > 1) {
+										collection.push({ set: href[4], collector_number: href[5] });
+									} else {
+										collection.push({ set: 'lea', collector_number: '232' });
+									}
+								});
+								fetch('https://api.scryfall.com/cards/collection', {
+									method: 'post',
+									headers: {
+										'Content-Type': 'application/json',
+									},
+									body: JSON.stringify({ identifiers: collection }),
+								})
+									.then((response) => response.json())
+									.then((data) => {
+										cards.forEach((card, index) => {
+											let usdDiv = document.createElement('div');
+											let usdNum = data.data[index].prices.usd;
+											usdDiv.textContent = usdNum;
+											usdNum = +usdNum;
+											if (usdNum >= 20) {
+												usdDiv.classList.add('twenty-dollars');
+											} else if (usdNum >= 10) {
+												usdDiv.classList.add('ten-dollars');
+											} else if (usdNum >= 5) {
+												usdDiv.classList.add('five-dollars');
+											} else if (usdNum >= 2) {
+												usdDiv.classList.add('two-dollars');
+											} else if (usdNum >= 1) {
+												usdDiv.classList.add('one-dollar');
+											}
+											card.parentElement.append(usdDiv);
+										});
+									});
+							}
 						});
 						cardSetDiv.append(h2);
 
@@ -375,6 +481,7 @@
 						}
 
 						// Handle special cases
+						// 2023
 						// Commander Masters
 						if (cardSet.cards.find((card) => card.setCode === 'CMM')) {
 							rows = [
@@ -394,6 +501,7 @@
 								[cards[5], cards[6], cards[7], cards[8], cards[9]],
 							];
 						}
+						// 2022
 						// Warhammer 40K
 						if (cardSet.cards.find((card) => card.setCode === '40K')) {
 							rows = [
@@ -407,11 +515,157 @@
 							rows = [[placeholderCard, cards[0], placeholderCard, cards[1], cards[2]]];
 						}
 						// Astrology Lands
-						if (cardSet.cards.find(card => card.setCode === 'SLD' && card.releaseDate === 'Jan 04, 2022')) {
+						if (cardSet.cards.find((card) => card.setCode === 'SLD' && card.releaseDate === 'Jan 04, 2022')) {
 							rows = [
 								[cards[0], cards[1], cards[2], cards[3], cards[4]],
 								[cards[5], cards[6], cards[7], cards[8], cards[9]],
-								[cards[10], cards[11], placeholderCard, placeholderCard, placeholderCard]
+								[cards[10], cards[11], placeholderCard, placeholderCard, placeholderCard],
+							];
+						}
+						// 2020
+						// Secret Lair: Seb McKinnon
+						if (
+							cardSet.cards.find(
+								(card) =>
+									card.setCode === 'SLD' && (card.collectorsNumber === '0119' || card.collectorsNumber === '0539'),
+							)
+						) {
+							rows = [[placeholderCard, placeholderCard, cards[0], cards[1], placeholderCard]];
+						}
+						// 2018
+						// Duel Decks: Elves vs. Inventors
+						if (cardSet.cards.find((card) => card.setCode === 'DDU')) {
+							rows = [
+								[placeholderCard, cards[0], cards[1], cards[2], cards[3]],
+								[placeholderCard, cards[4], cards[5], cards[6], cards[7]],
+							];
+						}
+						// 2017
+						// Duel Decks: Merfolk vs. Goblins
+						if (cardSet.cards.find((card) => card.setCode === 'DDT')) {
+							rows = [
+								[placeholderCard, cards[0], cards[1], cards[2], cards[3]],
+								[placeholderCard, cards[4], cards[5], cards[6], cards[7]],
+							];
+						}
+						// Commander Anthology
+						if (cardSet.cards.find((card) => card.setCode === 'CMA')) {
+							rows = [
+								[cards[0], cards[8], cards[12], cards[20], cards[24]],
+								[cards[1], cards[9], cards[13], cards[21], cards[25]],
+								[cards[2], cards[10], cards[14], cards[22], cards[26]],
+								[cards[3], cards[11], cards[15], cards[23], cards[27]],
+								[placeholderCard, cards[4], cards[5], cards[6], cards[7]],
+								[placeholderCard, cards[16], cards[17], cards[18], cards[19]],
+								[placeholderCard, cards[28], cards[29], cards[30], cards[31]],
+								[placeholderCard, cards[32], cards[33], cards[34], cards[35]],
+							];
+						}
+						// Duel Decks: Mind vs. Might
+						if (cardSet.cards.find((card) => card.setCode === 'DDS')) {
+							rows = [
+								[placeholderCard, cards[0], cards[1], cards[2], placeholderCard],
+								[placeholderCard, cards[3], cards[4], cards[5], placeholderCard],
+								[placeholderCard, cards[6], cards[7], cards[8], placeholderCard],
+								[placeholderCard, cards[9], cards[10], cards[11], placeholderCard],
+							];
+						}
+						// 2016
+						// Planechase Anthology
+						if (cardSet.cards.find((card) => card.setCode === 'PCA')) {
+							rows = [
+								[cards[0], cards[5], cards[10], cards[15], cards[19]],
+								[cards[1], cards[6], cards[11], cards[16], cards[20]],
+								[cards[2], cards[7], cards[12], cards[17], cards[21]],
+								[cards[3], cards[8], cards[13], cards[18], cards[22]],
+								[cards[4], cards[9], cards[14], cards[23], cards[24]],
+							];
+						}
+						// Duel Decks: Nissa vs. Ob Nixilis
+						if (cardSet.cards.find((card) => card.setCode === 'DDR')) {
+							rows = [
+								[cards[0], cards[1], cards[2], cards[3], cards[4]],
+								[cards[5], cards[6], cards[7], cards[8], cards[9]],
+							];
+						}
+						// Duel Decks: Blessed vs. Cursed
+						if (cardSet.cards.find((card) => card.setCode === 'DDQ')) {
+							rows = [
+								[placeholderCard, cards[3], cards[4], cards[5], placeholderCard],
+								[placeholderCard, cards[0], cards[1], cards[2], placeholderCard],
+								[placeholderCard, cards[6], cards[7], cards[8], placeholderCard],
+								[placeholderCard, cards[9], cards[10], cards[11], placeholderCard],
+							];
+						}
+						// 2015
+						// Battle for Zendikar
+						if (cardSet.cards.find((card) => card.setCode === 'BFZ')) {
+							rows = [
+								[cards[0], cards[10], cards[20], cards[30], cards[40]],
+								[cards[2], cards[12], cards[22], cards[32], cards[42]],
+								[cards[4], cards[14], cards[24], cards[34], cards[44]],
+								[cards[6], cards[16], cards[26], cards[36], cards[46]],
+								[cards[8], cards[18], cards[28], cards[38], cards[48]],
+								[cards[1], cards[11], cards[21], cards[31], cards[41]],
+								[cards[3], cards[13], cards[23], cards[33], cards[43]],
+								[cards[5], cards[15], cards[25], cards[35], cards[45]],
+								[cards[7], cards[17], cards[27], cards[37], cards[47]],
+								[cards[9], cards[19], cards[29], cards[39], cards[49]],
+							];
+						}
+						// Duel Decks: Zendikar vs. Eldrazi
+						if (cardSet.cards.find((card) => card.setCode === 'DDP')) {
+							rows = [
+								[placeholderCard, cards[0], cards[1], cards[2], placeholderCard],
+								[placeholderCard, cards[3], cards[4], cards[5], placeholderCard],
+								[placeholderCard, cards[6], cards[7], cards[8], placeholderCard],
+								[placeholderCard, cards[9], cards[10], cards[11], placeholderCard],
+							];
+						}
+						// Duel Decks: Elspeth vs. Kiora
+						if (cardSet.cards.find((card) => card.setCode === 'DDO')) {
+							rows = [
+								[placeholderCard, cards[0], cards[1], cards[2], cards[3]],
+								[placeholderCard, cards[4], cards[5], cards[6], placeholderCard],
+								[placeholderCard, cards[7], cards[8], cards[9], placeholderCard],
+							];
+						}
+						// 2014
+						// Duel Decks Anthology: Jace vs. Chandra
+						if (cardSet.cards.find((card) => card.setCode === 'JVC')) {
+							rows = [
+								[placeholderCard, cards[0], cards[1], cards[2], cards[3]],
+								[placeholderCard, cards[4], cards[5], cards[6], cards[7]],
+							];
+						}
+						// Duel Decks Anthology: Garruk vs. Liliana
+						if (cardSet.cards.find((card) => card.setCode === 'GVL')) {
+							rows = [
+								[placeholderCard, cards[0], cards[1], cards[2], cards[3]],
+								[placeholderCard, cards[4], cards[5], cards[6], cards[7]],
+							];
+						}
+						// Duel Decks Anthology: Elves vs. Goblins
+						if (cardSet.cards.find((card) => card.setCode === 'EVG')) {
+							rows = [
+								[placeholderCard, cards[0], cards[1], cards[2], cards[3]],
+								[placeholderCard, cards[4], cards[5], cards[6], cards[7]],
+							];
+						}
+						// Duel Decks Anthology: Divine vs. Demonic
+						if (cardSet.cards.find((card) => card.setCode === 'DVD')) {
+							rows = [
+								[placeholderCard, cards[0], cards[1], cards[2], cards[3]],
+								[placeholderCard, cards[4], cards[5], cards[6], cards[7]],
+							];
+						}
+						// Duel Decks: Speed vs. Cunning
+						if (cardSet.cards.find((card) => card.setCode === 'DDN')) {
+							rows = [
+								[placeholderCard, cards[0], cards[1], cards[2], cards[3]],
+								[placeholderCard, cards[4], cards[5], cards[6], placeholderCard],
+								[placeholderCard, cards[7], cards[8], cards[9], cards[10]],
+								[placeholderCard, cards[11], cards[12], cards[13], placeholderCard],
 							];
 						}
 
@@ -481,21 +735,6 @@
 									cardImg.classList.add('is-en-route');
 								}
 								cardA.append(cardImg);
-								// if (card.usd && card.usd !== '#NUM!') {
-								// 	let usdDiv = document.createElement('div');
-								// 	usdDiv.textContent = card.usd;
-								// 	let usdNum = card.usd.slice(2);
-								// 	if (usdNum >= 10) {
-								// 		usdDiv.classList.add('ten-dollars');
-								// 	} else if (usdNum >= 5) {
-								// 		usdDiv.classList.add('five-dollars');
-								// 	} else if (usdNum >= 2) {
-								// 		usdDiv.classList.add('two-dollars');
-								// 	} else if (usdNum >= 1) {
-								// 		usdDiv.classList.add('one-dollar');
-								// 	}
-								// 	cardA.append(usdDiv);
-								// }
 								rowDiv.append(cardA);
 								if (jdx % 5 === 4) {
 									cardsDiv.append(rowDiv);
